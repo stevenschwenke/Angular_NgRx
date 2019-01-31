@@ -2,7 +2,8 @@ import * as MyActions from './my.actions';
 import {Beverage} from './beverage';
 
 const initialState = {
-  beverages: [new Beverage('Club Mate', 1)]
+  beverages: [new Beverage('Club Mate', 0)],
+  totalPrice: 0
 };
 
 export function beverageReducer(state = initialState, action: MyActions.MyActions) {
@@ -11,16 +12,20 @@ export function beverageReducer(state = initialState, action: MyActions.MyAction
     case MyActions.ADD_BEVERAGE:
       return {
         ...state,
-        beverages: [...state.beverages, action.payload]
+        beverages: [...state.beverages, action.payload],
+        totalPrice: <number>state.totalPrice + action.payload.price
       };
     case MyActions.REMOVE_BEVERAGE:
 
+
       const beverages = [...state.beverages]; // get old beverages in an immutable way
-      beverages.splice(action.payload, 1);
+      const newPrice = state.totalPrice - beverages[action.payload].price;
+        beverages.splice(action.payload, 1);
 
       return {
         ...state,
-        beverages: beverages
+        beverages: beverages,
+        totalPrice: newPrice
       };
     default:
       return state;

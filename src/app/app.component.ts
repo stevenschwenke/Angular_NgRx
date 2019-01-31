@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import * as MyActions from './store/my.actions';
 import {Beverage} from './store/beverage';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {Beverage} from './store/beverage';
 })
 export class AppComponent {
 
+  private totalPrice: Observable<number>;
   valueFromStore: Beverage[];
 
   constructor(private store: Store<Beverage>) {
@@ -29,6 +31,7 @@ export class AppComponent {
 
     this.store.select('beverageReducers').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
+      this.totalPrice = stateObject.totalPrice;
     });
 
   }
