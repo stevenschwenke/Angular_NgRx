@@ -1,7 +1,16 @@
 import * as MyActions from './my.actions';
 import {Beverage} from './beverage';
 
-const initialState = {
+export interface AppState {
+  beverageModule: State;
+}
+
+export interface State {
+  beverages: Beverage[];
+  totalPrice: number;
+}
+
+const initialState: State = {
   beverages: [new Beverage('Club Mate', 0)],
   totalPrice: 0
 };

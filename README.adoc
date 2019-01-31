@@ -25,9 +25,8 @@ These are notes and code snippets from the NgRx-part of the Udemy Workshop https
 
 *my.reducers.ts*:
 
-[source]
+[source, javascript]
 ----
-
 import * as MyActions from './my.actions';
 import {Beverage} from './beverage';
 
@@ -51,7 +50,7 @@ export function beverageReducer(state = initialState, action: MyActions.AddBever
 
 *my.actions.ts*:
 
-[source]
+[source,javascript]
 ----
 import {Action} from '@ngrx/store';
 import {Beverage} from './beverage';
@@ -71,7 +70,7 @@ export type MyActions = AddBeverage;
 
 *app.module.ts*:
 
-[source]
+[source,javascript]
 ----
 imports: [
   ...
@@ -85,9 +84,8 @@ imports: [
 * getting state: this.store.select
 * dispatching actions: this.store.dispatch
 
-[source]
+[source,javascript]
 ----
-
 export class AppComponent {
 
   valueFromStore: Beverage;
@@ -111,7 +109,40 @@ export class AppComponent {
     });
 
   }
+----
 
+== Enhance Readability by using Interfaces for the State
+
+_my.reducers.ts_:
+
+[source,javascript]
+----
+export interface AppState {
+  beverageModule: State;
+}
+
+export interface State {
+  beverages: Beverage[];
+  totalPrice: number;
+}
+
+const initialState: State = {
+  beverages: [new Beverage('Club Mate', 0)],
+  totalPrice: 0
+};
+----
+
+used in _app.component.ts_:
+[source,javascript]
+----
+constructor(private store: Store<fromBeverageModule.AppState>) {}
+----
+
+(instead of having to copy the specific state like this previous version (pretty simple state, but imagine it gets more complicated)):
+
+[source,javascript]
+----
+constructor(private store: Store<Beverage>) {}
 ----
 
 == Further reading

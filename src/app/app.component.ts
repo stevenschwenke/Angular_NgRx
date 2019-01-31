@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import * as MyActions from './store/my.actions';
+import * as fromBeverageModule from './store/my.reducers';
 import {Beverage} from './store/beverage';
 import {Observable} from 'rxjs';
 
@@ -15,7 +16,7 @@ export class AppComponent {
   private totalPrice: Observable<number>;
   valueFromStore: Beverage[];
 
-  constructor(private store: Store<Beverage>) {
+  constructor(private store: Store<fromBeverageModule.AppState>) {
   }
 
   onInputNewValue(form: NgForm) {
