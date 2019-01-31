@@ -1,0 +1,110 @@
+= NgRx Workshop
+
+These are notes and code snippets from the NgRx-part of the Udemy Workshop https://www.udemy.com/the-complete-guide-to-angular-2[The complete guide to Angular], which is very much recommended. My notes to the rest of the topics from the guide can be found https://github.com/msg-DAVID-GmbH/AngularWorkshop[here].
+
+== NgRx
+
+* additional package
+* alternative to storing state in an Angular application (either via services or NgRx)
+* maintaining state in complex applications can become burdensome
+* using _Subject_ in services = good thing because making sure that statechange only in this service + notification to rest of application
+
+== Redux-like pattern
+* like in React: only one central *Store* in application
+* changing state through *Actions* that gets send to *Reducers*
+* state-change immutable: old state doesn't get overwritten but archived
+
+== Creating a Reducer
+* reducers ad a new state
+* parameters will be passed in function automatically by NgRx
+* reducer-function will be triggered whenever an action is dispatched
+* arguments of reducer-function:
+1. State before the function is entered. If no state present, initial state can be determined
+1. action
+
+*my.reducers.ts*:
+
+[source]
+----
+
+export const SET_MY_NUMBER = 'SET_MY_NUMBER';
+
+const initialState = {
+  myNumber = 42;
+};
+
+export function myListReducer(state = initialState, action: MyActions.MyActions) {
+
+  switch(action.type) {
+    case MyActions.SET_MY_NUMBER:
+      return {
+        ...state,
+        myNumber = action.payload;
+      }
+    default:
+      return state;
+  }
+}
+----
+
+*my.actions.ts*:
+
+[source]
+----
+export const SET_MY_NUMBER = 'SET_MY_NUMBER';
+
+export class SetMyNumber implements Action {
+
+  readonly type = SET_MY_NUMBER;
+
+  payload: Number;
+}
+
+export type MyActions = SetMyNumber;
+----
+
+*app.module.ts*:
+
+[source]
+----
+imports: [
+  ...
+  StoreModule.forRoot({my-module: myListReducer})
+]
+----
+
+== Getting state
+
+* in constructor: global state has to be defined as JSON-object
+
+[source]
+----
+
+export class MyComponent implements OnInit, OnDestroy {
+
+  someNumber: Observable<{myNumber: Number}>;
+
+  constructor(private store: Store<{myComponent: {
+                                                   myNumber = 42;
+                                                 }}>) { }
+
+  ngOnInit() {
+    this.someNumber = this.store.select('myComponent');
+  }
+
+}
+
+----
+
+== Dispatch Actions
+
+* somewhere where an action is triggered:
+
+[source]
+----
+
+----
+
+== Further reading
+* https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/[Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store and why]
+** stores not viewed by their creators as a one-size-fits-all-solution: "You’ll know when you need Flux. If you aren’t sure if you need it, you don’t need it."
