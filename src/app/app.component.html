@@ -12,11 +12,18 @@
          ngModel>
 
   <button
-    type="submit">Submit
+    type="submit">Add
   </button>
 </form>
 
 <h1>Read from store</h1>
-<p *ngIf="valueFromStore">
-  {{valueFromStore.name}} for {{valueFromStore.price}}
-</p>
+<table>
+  <tr *ngFor="let value of valueFromStore">
+    <td>{{value.name}}</td>
+    <td>{{value.price}}</td>
+  </tr>
+</table>
+
+
+
+

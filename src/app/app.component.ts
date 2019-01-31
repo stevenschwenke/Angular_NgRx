@@ -11,7 +11,7 @@ import {Beverage} from './store/beverage';
 })
 export class AppComponent {
 
-  valueFromStore: Beverage;
+  valueFromStore: Beverage[];
 
   constructor(private store: Store<Beverage>) {
   }

@@ -2,7 +2,7 @@ import * as MyActions from './my.actions';
 import {Beverage} from './beverage';
 
 const initialState = {
-  beverage: new Beverage('Club Mate', 1)
+  beverage: [new Beverage('Club Mate', 1)]
 };
 
 export function beverageReducer(state = initialState, action: MyActions.AddBeverage) {
@@ -11,7 +11,7 @@ export function beverageReducer(state = initialState, action: MyActions.AddBever
     case MyActions.ADD_BEVERAGE:
       return {
         ...state,
-        beverage: action.payload
+        beverage: [...state.beverage, action.payload]
       };
     default:
       return state;
