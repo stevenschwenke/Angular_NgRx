@@ -19,8 +19,9 @@ These are notes and code snippets from the NgRx-part of the Udemy Workshop https
 * parameters will be passed in function automatically by NgRx
 * reducer-function will be triggered whenever an action is dispatched
 * arguments of reducer-function:
-1. State before the function is entered. If no state present, initial state can be determined
-1. action
+1. State before the function is entered. If no state present, initial state can be determined. The spread-operator "..." means "take the old state"
+1. action that overrides the specified part of the old state
+* so basically the following says "take the old state and override _beverage_ with the payload from the action"
 
 *my.reducers.ts*:
 

@@ -28,8 +28,12 @@ export class AppComponent {
     console.log('Reading from store ...');
 
     this.store.select('beverageReducers').subscribe(stateObject => {
-      this.valueFromStore = stateObject.beverage;
+      this.valueFromStore = stateObject.beverages;
     });
 
+  }
+
+  onRemoveBeverage(index: number) {
+    this.store.dispatch(new MyActions.RemoveBeverage(index));
   }
 }
