@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
-import {myReducer} from './store/my.reducers';
+import {beverageReducer} from './store/my.reducers';
 import {StoreModule} from '@ngrx/store';
 
 @NgModule({
@@ -13,7 +13,7 @@ import {StoreModule} from '@ngrx/store';
   imports: [
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot({myReducers: myReducer})
+    StoreModule.forRoot({beverageReducers: beverageReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]

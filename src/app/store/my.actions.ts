@@ -1,13 +1,14 @@
 import {Action} from '@ngrx/store';
+import {Beverage} from './beverage';
 
-export const SET_MY_NUMBER = 'SET_MY_NUMBER';
+export const ADD_BEVERAGE = 'ADD_BEVERAGE';
 
-export class SetMyNumber implements Action {
+export class AddBeverage implements Action {
 
-  constructor(public payload: number) {
+  constructor(public payload: Beverage) {
   }
 
-  readonly type = SET_MY_NUMBER;
+  readonly type = ADD_BEVERAGE;
 }
 
-export type MyActions = SetMyNumber;
+export type MyActions = AddBeverage;

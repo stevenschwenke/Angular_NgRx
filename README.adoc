@@ -27,20 +27,21 @@ These are notes and code snippets from the NgRx-part of the Udemy Workshop https
 [source]
 ----
 
-export const SET_MY_NUMBER = 'SET_MY_NUMBER';
+import * as MyActions from './my.actions';
+import {Beverage} from './beverage';
 
 const initialState = {
-  myNumber = 42;
+  beverage: new Beverage('Club Mate', 1)
 };
 
-export function myListReducer(state = initialState, action: MyActions.MyActions) {
+export function beverageReducer(state = initialState, action: MyActions.AddBeverage) {
 
-  switch(action.type) {
-    case MyActions.SET_MY_NUMBER:
+  switch (action.type) {
+    case MyActions.ADD_BEVERAGE:
       return {
         ...state,
-        myNumber = action.payload;
-      }
+        beverage: action.payload
+      };
     default:
       return state;
   }
@@ -51,16 +52,20 @@ export function myListReducer(state = initialState, action: MyActions.MyActions)
 
 [source]
 ----
-export const SET_MY_NUMBER = 'SET_MY_NUMBER';
+import {Action} from '@ngrx/store';
+import {Beverage} from './beverage';
 
-export class SetMyNumber implements Action {
+export const ADD_BEVERAGE = 'ADD_BEVERAGE';
 
-  readonly type = SET_MY_NUMBER;
+export class AddBeverage implements Action {
 
-  payload: Number;
+  constructor(public payload: Beverage) {
+  }
+
+  readonly type = ADD_BEVERAGE;
 }
 
-export type MyActions = SetMyNumber;
+export type MyActions = AddBeverage;
 ----
 
 *app.module.ts*:
@@ -69,39 +74,42 @@ export type MyActions = SetMyNumber;
 ----
 imports: [
   ...
-  StoreModule.forRoot({my-module: myListReducer})
+  StoreModule.forRoot({beverageReducers: beverageReducer})
 ]
 ----
 
-== Getting state
+== Getting state & Dispatch Actions
 
 * in constructor: global state has to be defined as JSON-object
+* getting state: this.store.select
+* dispatching actions: this.store.dispatch
 
 [source]
 ----
 
-export class MyComponent implements OnInit, OnDestroy {
+export class AppComponent {
 
-  someNumber: Observable<{myNumber: Number}>;
+  valueFromStore: Beverage;
 
-  constructor(private store: Store<{myComponent: {
-                                                   myNumber = 42;
-                                                 }}>) { }
-
-  ngOnInit() {
-    this.someNumber = this.store.select('myComponent');
+  constructor(private store: Store<Beverage>) {
   }
 
-}
+  onInputNewValue(form: NgForm) {
 
-----
+    const beverage = new Beverage(form.value.name, form.value.price);
 
-== Dispatch Actions
+    console.log('Writing to store:');
+    console.log(beverage);
 
-* somewhere where an action is triggered:
+    this.store.dispatch(new MyActions.AddBeverage(beverage));
 
-[source]
-----
+    console.log('Reading from store ...');
+
+    this.store.select('beverageReducers').subscribe(stateObject => {
+      this.valueFromStore = stateObject.beverage;
+    });
+
+  }
 
 ----
 

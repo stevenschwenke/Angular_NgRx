@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import * as MyActions from './store/my.actions';
+import {Beverage} from './store/beverage';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +11,24 @@ import * as MyActions from './store/my.actions';
 })
 export class AppComponent {
 
-  valueFromStore: number;
+  valueFromStore: Beverage;
 
-  constructor(private store: Store<number>) {
+  constructor(private store: Store<Beverage>) {
   }
 
   onInputNewValue(form: NgForm) {
 
-    console.log('Writing to store:' + form.value.inputValue);
+    const beverage = new Beverage(form.value.name, form.value.price);
 
-    this.store.dispatch(new MyActions.SetMyNumber(form.value.inputValue));
+    console.log('Writing to store:');
+    console.log(beverage);
+
+    this.store.dispatch(new MyActions.AddBeverage(beverage));
 
     console.log('Reading from store ...');
 
-    this.store.select('myReducers').subscribe(stateObject => {
-      this.valueFromStore = stateObject.myNumber;
+    this.store.select('beverageReducers').subscribe(stateObject => {
+      this.valueFromStore = stateObject.beverage;
     });
 
   }

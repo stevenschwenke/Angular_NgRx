@@ -1,15 +1,22 @@
-
-<h1>Enter into store</h1>
+<h1>Add Beverage to store</h1>
 <form (ngSubmit)="onInputNewValue(f)" #f="ngForm">
-  <label for="inputValue" style="margin-top: 10px">New integer-only value:</label>
+  <label for="name" style="margin-top: 10px">name:</label>
   <input type="text"
-         id="inputValue"
-         name="inputValue"
+         id="name"
+         name="name"
+         ngModel>
+  <label for="price" style="margin-top: 10px">price:</label>
+  <input type="number"
+         id="price"
+         name="price"
          ngModel>
 
   <button
-    type="submit">Submit</button>
+    type="submit">Submit
+  </button>
 </form>
 
 <h1>Read from store</h1>
-{{valueFromStore}}
+<p *ngIf="valueFromStore">
+  {{valueFromStore.name}} for {{valueFromStore.price}}
+</p>

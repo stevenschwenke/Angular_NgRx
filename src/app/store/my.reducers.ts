@@ -1,16 +1,17 @@
 import * as MyActions from './my.actions';
+import {Beverage} from './beverage';
 
 const initialState = {
-  myNumber: 42
+  beverage: new Beverage('Club Mate', 1)
 };
 
-export function myReducer(state = initialState, action: MyActions.SetMyNumber) {
+export function beverageReducer(state = initialState, action: MyActions.AddBeverage) {
 
   switch (action.type) {
-    case MyActions.SET_MY_NUMBER:
+    case MyActions.ADD_BEVERAGE:
       return {
         ...state,
-        myNumber: [action.payload]
+        beverage: action.payload
       };
     default:
       return state;
