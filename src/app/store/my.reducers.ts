@@ -26,10 +26,9 @@ export function beverageReducer(state = initialState, action: MyActions.MyAction
       };
     case MyActions.REMOVE_BEVERAGE:
 
-
       const beverages = [...state.beverages]; // get old beverages in an immutable way
       const newPrice = state.totalPrice - beverages[action.payload].price;
-        beverages.splice(action.payload, 1);
+      beverages.splice(action.payload, 1);
 
       return {
         ...state,

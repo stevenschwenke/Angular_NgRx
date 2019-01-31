@@ -145,6 +145,35 @@ constructor(private store: Store<fromBeverageModule.AppState>) {}
 constructor(private store: Store<Beverage>) {}
 ----
 
+== Always work on copy of state
+* when working with NgRx, past states must not be changed
+* instead, create copy of it and work on thi s copy
+* example: in reducer when removing a beverage, *don't* change a past state this way:
+
+[source,javascript]
+----
+const beverages = state.beverages; // DON`T DO THAT!
+beverages.splice(action.payload, 1);
+----
+
+* instead, create a copy of the past state to work on:
+
+[source,javascript]
+----
+const beverages = [...state.beverages]; // get old beverages in an immutable way
+beverages.splice(action.payload, 1);
+----
+
+* uses the https://basarat.gitbooks.io/typescript/docs/spread-operator.html[spread-operator] which spreads the content of an array
+* additionally, the spread contents are framed by an array which makes it the same datatype as past state 
+
+* also works for objects:
+
+[source,javascript]
+----
+const oldStuff = {...state.stuff[index]};
+----
+
 == Further reading
 * https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/[Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store and why]
 ** stores not viewed by their creators as a one-size-fits-all-solution: "You’ll know when you need Flux. If you aren’t sure if you need it, you don’t need it."
