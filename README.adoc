@@ -4,10 +4,11 @@ These are notes and code snippets from the NgRx-part of the Udemy Workshop https
 
 == NgRx
 
-* additional package
-* alternative to storing state in an Angular application (either via services or NgRx)
-* maintaining state in complex applications can become burdensome
-* using _Subject_ in services = good thing because making sure that statechange only in this service + notification to rest of application
+* reactive extensions for Angular
+* alternative to storing state in an Angular application
+* traditional way of using _Subject_ in services = good thing because making sure that statechange only in this service + notification to rest of application
+* however: maintaining state in complex applications can become burdensome
+* different approach in NgRx: store state globally in key-value-pairs in one place + components can subscribe for changes
 
 == Redux-like pattern
 * like in React: only one central *Store* in application
@@ -145,6 +146,21 @@ constructor(private store: Store<fromBeverageModule.AppState>) {}
 constructor(private store: Store<Beverage>) {}
 ----
 
+== Dealing with Observables by using async-Pipe
+* store always returns observables, hence simple string values cannot be used in template like this:
+
+[source,html]
+----
+This is my value: {{value}}
+----
+
+* instead, https://codecraft.tv/courses/angular/pipes/async-pipe/[_async_-pipe] has to be used to get rid of the observable:
+
+[source,html]
+----
+This is my value: {{value | async}}
+----
+
 == Always work on copy of state
 * when working with NgRx, past states must not be changed
 * instead, create copy of it and work on thi s copy
@@ -174,6 +190,23 @@ beverages.splice(action.payload, 1);
 const oldStuff = {...state.stuff[index]};
 ----
 
-== Further reading
-* https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/[Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store and why]
-** stores not viewed by their creators as a one-size-fits-all-solution: "You’ll know when you need Flux. If you aren’t sure if you need it, you don’t need it."
+== Further Reading
+=== Always use NgRX?
+* https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/[Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store and why]:
+** stores not viewed by their creators as a one-size-fits-all-solution: "_You’ll know when you need Flux. If you aren’t sure if you need it, you don’t need it._"
+* https://redux.js.org/faq/general#when-should-i-learn-redux[When should I use Redux?]:
+** "_I would like to amend this: don't use Redux until you have problems with vanilla React._"
+** "_However, it's also important to understand that using Redux comes with tradeoffs. It's not designed to be the shortest or fastest way to write code. It's intended to help answer the question "When did a certain slice of state change, and where did the data come from?", with predictable behavior._"
+
+=== What data to put into the store?
+* https://medium.com/@stodge/which-types-of-state-should-be-placed-in-my-ngrx-store-e6d2749333f1[Which types of state should be placed in my NGRX store?]: 
+** global reference data that has to be cached in the browser, for example shopping cart or wizard progress
+** complex component interactions that would be hard to implement using bindings and event emitters
+** "_Any properties of services in Angular (or AngularJs) are strong candidates to be placed into the store._"
+
+=== Is global State with NgRx an antipattern?
+* https://kimsereyblog.blogspot.com/2017/07/managing-global-state-with-ngrx-store.html[Managing global state with NgRx store in Angular]
+* "_Global state has had a bad reputation since inception due to its unpredictable nature.
+    About two years ago, Redux was introduced as a way to manage this unpredictability by making the state immutable and operations acting on the state synchronous and stateless (a similiar approach can be found in the actor pattern).
+    Since then, its principales has inspired multiple implementations, one of them being the Ngrx store for Angular._"
+* https://discuss.reactjs.org/t/redux-and-global-state-vs-local-state/4187[Redux and global state vs. local state]
