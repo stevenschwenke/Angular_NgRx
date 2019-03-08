@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
 })
 export class BarAndPubSupplierComponent {
 
-  private totalPrice: Observable<number>;
+  private totalPrice: number;
   valueFromStore: Beverage[];
 
   constructor(private store: Store<fromApp.AppState>) {
@@ -30,7 +30,7 @@ export class BarAndPubSupplierComponent {
 
     console.log('Reading from store ...');
 
-    this.store.select('barAndPubSupplierReducers').subscribe(stateObject => {
+    this.store.select('barAndPubSupplier').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
       this.totalPrice = stateObject.totalPrice;
     });
@@ -42,7 +42,7 @@ export class BarAndPubSupplierComponent {
   }
 
   refresh() {
-    this.store.select('barAndPubSupplierReducers').subscribe(stateObject => {
+    this.store.select('barAndPubSupplier').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
       this.totalPrice = stateObject.totalPrice;
     });

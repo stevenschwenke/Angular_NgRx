@@ -79,6 +79,8 @@ imports: [
 ]
 ----
 
+(Attention: There's a best practice to centrally manage all reducers in an own file, see below)
+
 == Getting state & Dispatch Actions
 
 * in constructor: global state has to be defined as JSON-object
@@ -193,6 +195,44 @@ const oldStuff = {...state.stuff[index]};
 == Asynchronous Operations
 * for example: storing authentication token in store generally good idea; but getting this token from server will be asynchronous
 * problem: asynchronous operations cannot be handled by reducers!
+
+== Centrally manage State and Reducers
+* good practice: manage _AppState_-interface and reducers in a file like _/store/app.reducers.ts_:
+
+[source,javascript]
+----
+import * as fromBarAndPubSupplier from '../bar-and-pub-supplier/store/bar-and-pub-supplier-reducers';
+import * as fromBar from '../bar/store/bar-reducers';
+import {ActionReducerMap} from '@ngrx/store';
+
+export interface AppState {
+  bar: fromBar.State;
+  barAndPubSupplier: fromBarAndPubSupplier.State;
+}
+
+export const reducers: ActionReducerMap<AppState> = {
+  bar: fromBar.barReducer,
+  barAndPubSupplier: fromBarAndPubSupplier.barAndPubSupplierReducer
+};
+----
+
+* referenced in _app.module.ts_:
+[source,javascript]
+----
+
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+    StoreModule.forRoot(reducers)
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
 
 == Further Reading
 === Always use NgRX?

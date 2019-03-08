@@ -7,7 +7,7 @@ export interface State {
 }
 
 const initialState: State = {
-  beverages: [],
+  beverages: [new Beverage('Complimentary Club Mate', 0)],
   totalPrice: 0
 };
 

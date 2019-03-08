@@ -13,7 +13,7 @@ import {Beverage} from '../shared/beverage';
 })
 export class BarComponent {
 
-  private totalPrice: Observable<number>;
+  private totalPrice: number;
   valueFromStore: Beverage[];
 
   constructor(private store: Store<fromApp.AppState>) {
@@ -30,7 +30,7 @@ export class BarComponent {
 
     console.log('Reading from store ...');
 
-    this.store.select('barReducers').subscribe(stateObject => {
+    this.store.select('bar').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
       this.totalPrice = stateObject.totalPrice;
     });
@@ -42,7 +42,7 @@ export class BarComponent {
   }
 
   refresh() {
-    this.store.select('barReducers').subscribe(stateObject => {
+    this.store.select('bar').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
       this.totalPrice = stateObject.totalPrice;
     });
