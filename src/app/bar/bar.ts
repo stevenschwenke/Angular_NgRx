@@ -40,4 +40,11 @@ export class BarComponent {
   onRemoveBeverage(index: number) {
     this.store.dispatch(new BarActions.RemoveBeverage(index));
   }
+
+  refresh() {
+    this.store.select('barReducers').subscribe(stateObject => {
+      this.valueFromStore = stateObject.beverages;
+      this.totalPrice = stateObject.totalPrice;
+    });
+  }
 }

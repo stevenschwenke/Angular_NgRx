@@ -40,4 +40,11 @@ export class BarAndPubSupplierComponent {
   onRemoveBeverage(index: number) {
     this.store.dispatch(new BarAndPubSupplierActions.RemoveBeverage(index));
   }
+
+  refresh() {
+    this.store.select('barAndPubSupplierReducers').subscribe(stateObject => {
+      this.valueFromStore = stateObject.beverages;
+      this.totalPrice = stateObject.totalPrice;
+    });
+  }
 }

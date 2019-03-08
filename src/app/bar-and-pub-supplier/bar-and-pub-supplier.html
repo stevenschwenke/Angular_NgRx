@@ -18,6 +18,7 @@
 </form>
 
 <h2>Contents of Delivery</h2>
+<button (click)="refresh()">Refresh</button>
 <table>
   <tr *ngFor="let value of valueFromStore">
     <td>{{value.name}}</td>
