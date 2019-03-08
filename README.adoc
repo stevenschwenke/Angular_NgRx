@@ -149,7 +149,7 @@ constructor(private store: Store<Beverage>) {}
 ----
 
 == Dealing with Observables by using async-Pipe
-* store always returns observables, hence simple string values cannot be used in template like this:
+* the whole state of a store is always returned as an observable, hence simple string values cannot be used in template like this:
 
 [source,html]
 ----
@@ -161,6 +161,25 @@ This is my value: {{value}}
 [source,html]
 ----
 This is my value: {{value | async}}
+----
+
+Here's how fields of a state can be accessed:
+
+* state definition in reducer-file:
+[source,javascript]
+----
+export interface State {
+  beverages: Beverage[];
+  totalPrice: number;
+}
+----
+** usage: State itself is an observable, fields can be accessed via _subscribe()_:
+[source,javascript]
+----
+    this.store.select('bar').subscribe(stateObject => {
+      this.valueFromStore = stateObject.beverages;
+      this.totalPrice = stateObject.totalPrice;
+    });
 ----
 
 == Always work on copy of state
@@ -232,6 +251,30 @@ export const reducers: ActionReducerMap<AppState> = {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+----
+
+== Redux Devtools
+* https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome]
+* Necessary changes in source:
+* _package.json_:
+[source,javascript]
+----
+  "dependencies": {
+    "@ngrx/store-devtools": "^7.2.0",
+    ...
+----
+* _app.modules.ts_:
+[source,javascript]
+----
+  imports: [
+    ...
+    StoreDevtoolsModule.instrument({
+      maxAge: 200, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+  ],
+  ...
 ----
 
 == Further Reading

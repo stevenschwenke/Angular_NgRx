@@ -8,6 +8,8 @@ import {BarAndPubSupplierComponent} from './bar-and-pub-supplier/bar-and-pub-sup
 import {BarComponent} from './bar/bar';
 
 import {reducers} from './store/app.reducers';
+import {environment} from '../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,12 @@ import {reducers} from './store/app.reducers';
   imports: [
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 200, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
