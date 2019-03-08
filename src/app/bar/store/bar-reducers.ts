@@ -1,4 +1,4 @@
-import * as BarAndPubSupplierActions from './bar-actions';
+import * as BarActions from './bar-actions';
 import {Beverage} from '../../shared/beverage';
 
 export interface State {
@@ -11,16 +11,16 @@ const initialState: State = {
   totalPrice: 0
 };
 
-export function barReducer(state = initialState, action: BarAndPubSupplierActions.BarActions) {
+export function barReducer(state = initialState, action: BarActions.BarActions) {
 
   switch (action.type) {
-    case BarAndPubSupplierActions.ADD_BEVERAGE:
+    case BarActions.ADD_BEVERAGE:
       return {
         ...state,
         beverages: [...state.beverages, action.payload],
         totalPrice: <number>state.totalPrice + action.payload.price
       };
-    case BarAndPubSupplierActions.REMOVE_BEVERAGE:
+    case BarActions.REMOVE_BEVERAGE:
 
       const beverages = [...state.beverages]; // get old beverages in an immutable way
       const newPrice = state.totalPrice - beverages[action.payload].price;

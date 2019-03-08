@@ -69,6 +69,8 @@ export class AddBeverage implements Action {
 export type BarActions = AddBeverage;
 ----
 
+* The constant _ADD_BEVERAGE_ is internally used by NgRx to identify actions. Actions with the same identifier will be triggered all after another!
+
 *app.module.ts*:
 
 [source,javascript]
