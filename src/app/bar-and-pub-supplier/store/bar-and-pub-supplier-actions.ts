@@ -20,4 +20,6 @@ export class RemoveBeverage implements Action {
   readonly type = REMOVE_BEVERAGE;
 }
 
-export type MyActions = AddBeverage | RemoveBeverage;
+export type BarAndPubSupplierActions =
+  AddBeverage |
+  RemoveBeverage;

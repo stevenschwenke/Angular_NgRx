@@ -1,4 +1,4 @@
-import * as MyActions from './my.actions';
+import * as BarAndPubSupplierActions from './bar-and-pub-supplier-actions';
 import {Beverage} from './beverage';
 
 export interface AppState {
@@ -11,20 +11,20 @@ export interface State {
 }
 
 const initialState: State = {
-  beverages: [new Beverage('Club Mate', 0)],
+  beverages: [new Beverage('Complimentary Club Mate', 0)],
   totalPrice: 0
 };
 
-export function beverageReducer(state = initialState, action: MyActions.MyActions) {
+export function beverageReducer(state = initialState, action: BarAndPubSupplierActions.BarAndPubSupplierActions) {
 
   switch (action.type) {
-    case MyActions.ADD_BEVERAGE:
+    case BarAndPubSupplierActions.ADD_BEVERAGE:
       return {
         ...state,
         beverages: [...state.beverages, action.payload],
         totalPrice: <number>state.totalPrice + action.payload.price
       };
-    case MyActions.REMOVE_BEVERAGE:
+    case BarAndPubSupplierActions.REMOVE_BEVERAGE:
 
       const beverages = [...state.beverages]; // get old beverages in an immutable way
       const newPrice = state.totalPrice - beverages[action.payload].price;

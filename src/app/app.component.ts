@@ -1,10 +1,4 @@
 import {Component} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {Store} from '@ngrx/store';
-import * as MyActions from './store/my.actions';
-import * as fromBeverageModule from './store/my.reducers';
-import {Beverage} from './store/beverage';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,31 +7,4 @@ import {Observable} from 'rxjs';
 })
 export class AppComponent {
 
-  private totalPrice: Observable<number>;
-  valueFromStore: Beverage[];
-
-  constructor(private store: Store<fromBeverageModule.AppState>) {
-  }
-
-  onInputNewValue(form: NgForm) {
-
-    const beverage = new Beverage(form.value.name, form.value.price);
-
-    console.log('Writing to store:');
-    console.log(beverage);
-
-    this.store.dispatch(new MyActions.AddBeverage(beverage));
-
-    console.log('Reading from store ...');
-
-    this.store.select('beverageReducers').subscribe(stateObject => {
-      this.valueFromStore = stateObject.beverages;
-      this.totalPrice = stateObject.totalPrice;
-    });
-
-  }
-
-  onRemoveBeverage(index: number) {
-    this.store.dispatch(new MyActions.RemoveBeverage(index));
-  }
 }
