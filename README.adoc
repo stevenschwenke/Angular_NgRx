@@ -24,21 +24,21 @@ These are notes and code snippets from the NgRx-part of the Udemy Workshop https
 1. action that overrides the specified part of the old state
 * so basically the following says "take the old state and override _beverage_ with the payload from the action"
 
-*bar-and-pub-supplier-reducers.ts*:
+*bar-reducers.ts*:
 
 [source, javascript]
 ----
-import * as BarAndPubSupplierActions from './my.actions';
+import * as BarActions from './my.actions';
 import {Beverage} from './beverage';
 
 const initialState = {
   beverage: new Beverage('Club Mate', 1)
 };
 
-export function beverageReducer(state = initialState, action: BarAndPubSupplierActions.AddBeverage) {
+export function beverageReducer(state = initialState, action: BarActions.AddBeverage) {
 
   switch (action.type) {
-    case BarAndPubSupplierActions.ADD_BEVERAGE:
+    case BarActions.ADD_BEVERAGE:
       return {
         ...state,
         beverage: action.payload
@@ -49,7 +49,7 @@ export function beverageReducer(state = initialState, action: BarAndPubSupplierA
 }
 ----
 
-*bar-and-pub-supplier-actions.ts*:
+*bar-actions.ts*:
 
 [source,javascript]
 ----
@@ -66,7 +66,7 @@ export class AddBeverage implements Action {
   readonly type = ADD_BEVERAGE;
 }
 
-export type BarAndPubSupplierActions = AddBeverage;
+export type BarActions = AddBeverage;
 ----
 
 *app.module.ts*:
@@ -101,7 +101,7 @@ export class AppComponent {
     console.log('Writing to store:');
     console.log(beverage);
 
-    this.store.dispatch(new BarAndPubSupplierActions.AddBeverage(beverage));
+    this.store.dispatch(new BarActions.AddBeverage(beverage));
 
     console.log('Reading from store ...');
 
@@ -189,6 +189,10 @@ beverages.splice(action.payload, 1);
 ----
 const oldStuff = {...state.stuff[index]};
 ----
+
+== Asynchronous Operations
+* for example: storing authentication token in store generally good idea; but getting this token from server will be asynchronous
+* problem: asynchronous operations cannot be handled by reducers!
 
 == Further Reading
 === Always use NgRX?

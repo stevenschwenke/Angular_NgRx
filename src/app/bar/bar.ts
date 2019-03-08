@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import * as BarAndPubSupplierActions from './store/bar-and-pub-supplier-actions';
+import * as BarActions from './store/bar-actions';
 import * as fromApp from './../store/app.reducers';
-import {Beverage} from '../shared/beverage';
 import {Observable} from 'rxjs';
+import {Beverage} from '../shared/beverage';
 
 @Component({
-  selector: 'app-bar-and-pub-supplier',
-  templateUrl: './bar-and-pub-supplier.html',
-  styleUrls: ['./bar-and-pub-supplier.css']
+  selector: 'app-bar',
+  templateUrl: './bar.html',
+  styleUrls: ['./bar.css']
 })
-export class BarAndPubSupplierComponent {
+export class BarComponent {
 
   private totalPrice: Observable<number>;
   valueFromStore: Beverage[];
@@ -26,11 +26,11 @@ export class BarAndPubSupplierComponent {
     console.log('Writing to store:');
     console.log(beverage);
 
-    this.store.dispatch(new BarAndPubSupplierActions.AddBeverage(beverage));
+    this.store.dispatch(new BarActions.AddBeverage(beverage));
 
     console.log('Reading from store ...');
 
-    this.store.select('barAndPubSupplierReducers').subscribe(stateObject => {
+    this.store.select('barReducers').subscribe(stateObject => {
       this.valueFromStore = stateObject.beverages;
       this.totalPrice = stateObject.totalPrice;
     });
@@ -38,6 +38,6 @@ export class BarAndPubSupplierComponent {
   }
 
   onRemoveBeverage(index: number) {
-    this.store.dispatch(new BarAndPubSupplierActions.RemoveBeverage(index));
+    this.store.dispatch(new BarActions.RemoveBeverage(index));
   }
 }

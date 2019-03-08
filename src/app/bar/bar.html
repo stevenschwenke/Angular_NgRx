@@ -1,0 +1,28 @@
+<h1>Bar</h1>
+<h2>Add Beverage to Delivery</h2>
+<form (ngSubmit)="onInputNewValue(f)" #f="ngForm">
+  <label for="name" style="margin-top: 10px">name:</label>
+  <input type="text"
+         id="name"
+         name="name"
+         ngModel>
+  <label for="price" style="margin-top: 10px">price:</label>
+  <input type="number"
+         id="price"
+         name="price"
+         ngModel>
+
+  <button
+    type="submit">Add
+  </button>
+</form>
+
+<h2>Contents of Delivery</h2>
+<table>
+  <tr *ngFor="let value of valueFromStore">
+    <td>{{value.name}}</td>
+    <td>{{value.price}}</td>
+    <td><button (click)="onRemoveBeverage(valueFromStore.indexOf(value))">Remove</button></td>
+  </tr>
+</table>
+<b>Total price:</b> {{totalPrice}}

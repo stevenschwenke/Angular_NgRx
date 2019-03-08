@@ -1,4 +1,4 @@
-import * as BarAndPubSupplierActions from './bar-and-pub-supplier-actions';
+import * as BarAndPubSupplierActions from './bar-actions';
 import {Beverage} from '../../shared/beverage';
 
 export interface State {
@@ -7,11 +7,11 @@ export interface State {
 }
 
 const initialState: State = {
-  beverages: [new Beverage('Complimentary Club Mate', 0)],
+  beverages: [],
   totalPrice: 0
 };
 
-export function barAndPubSupplierReducer(state = initialState, action: BarAndPubSupplierActions.BarAndPubSupplierActions) {
+export function barReducer(state = initialState, action: BarAndPubSupplierActions.BarActions) {
 
   switch (action.type) {
     case BarAndPubSupplierActions.ADD_BEVERAGE:
