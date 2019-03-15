@@ -255,6 +255,31 @@ export const reducers: ActionReducerMap<AppState> = {
 export class AppModule { }
 ----
 
+== take(1)
+* _store.select()_ returns an _Observable_ that can be subscribed to via _subscribe()_:
+
+[source,javascript]
+----
+this.store.select('barAndPubSupplier').subscribe(stateObject => {
+  this.valueFromStore = stateObject.beverages;
+  this.totalPrice = stateObject.totalPrice;
+});
+----
+
+* whenever store changes, subscription is fired
+* to have it fire only once to avoid unwanted side-effects:
+
+[source,javascript]
+----
+this.store.pipe(select('barAndPubSupplier'), take(1)).subscribe(stateObject => {
+  .take(1)
+  .subscribe(stateObject => {
+    this.valueFromStore = stateObject.beverages;
+    this.totalPrice = stateObject.totalPrice;
+});
+----
+
+
 == Redux Devtools
 * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome]
 * Necessary changes in source:
