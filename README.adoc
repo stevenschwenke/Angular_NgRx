@@ -279,6 +279,70 @@ this.store.pipe(select('barAndPubSupplier'), take(1)).subscribe(stateObject => {
 });
 ----
 
+== Effects
+* when using REST API to get data that has to be put in store: call = asynchronous side-effect
+* easy solution: call REST API in service class, subscribe to result, then put result to store
+* more elegant alternative in NgRX: effects
+
+[source,terminal]
+----
+npm install --save @ngrx/effects
+----
+
+* (no example code in the code base of this repository because no backend present)
+* effects in file _backendcall.effects.ts_:
+
+[source,javascript]
+----
+@Injectable()
+export class BackendcallEffects {
+
+  @Effect()
+  importantEntities = this.actions$.pipe(
+    ofType(BackendcallActions.MY_BACKENDCALL)
+    .map((action: BackendcallActions.MY_BACKENDCALL) => {
+      return action.payload;
+    })
+
+    // Do other stuff with the payload here
+    // At the very end, an action has to be emitted to change the state of the store!
+
+    ;
+  );
+
+  constructor(private actions$: Actions) {
+  }
+
+}
+----
+
+* note that _actions$_ is postfixed with a _$_ because it's an observable
+* also add _EffectsModule_ to _app.module.ts_ in _imports_-array:
+
+[source,javascript]
+----
+...
+imports: [
+  ...
+  EffectsModule.forRoot([BackendcallEffects])
+],
+...
+----
+
+* usage of effects in some component.ts:
+
+[source,javascript]
+----
+this.store.dispatch(new BackendcallActions.doBackendCall({value: 'value'}));
+----
+
+* the action dispatched this way is kind of listened to in  _BackendcallEffects_
+* effects are like reducers that don't necessarily change the state of the store
+* with effects, asynchronous actions can just be dispatched like synchronous ones
+
+== Local UI State
+* Good best practice: Not every state has to be managed with NgRx. If a isolated component needs a state that could be provided by the component itself, it's OK to do so instead of creating a new state in the store.
+* NgRx' strength is to provide state for multiple components
 
 == Redux Devtools
 * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome]
