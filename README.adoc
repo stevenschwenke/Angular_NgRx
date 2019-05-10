@@ -356,6 +356,23 @@ imports: [
 ]
 ----
 
+== Lazy Loading
+* problem with lazy-loaded modules: AppState for whole application (consisting of the state of multiple modules) cannot be build at application startup because modules are not loaded
+* solution: inject new state dynamically when modules are actually loaded
+* in _app.module.ts_:
+
+[source,javascript]
+----
+...
+imports: [
+  ...
+  StoreModule.forFeature('myFeature', myReducer)
+],
+...
+----
+
+* this will dynamically inject the state from _myFeature_ into the global state when the module is loaded
+
 == Redux Devtools
 * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome] to debug in browser
 * install with
