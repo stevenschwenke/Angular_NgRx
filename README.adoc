@@ -344,10 +344,25 @@ this.store.dispatch(new BackendcallActions.doBackendCall({value: 'value'}));
 * Good best practice: Not every state has to be managed with NgRx. If a isolated component needs a state that could be provided by the component itself, it's OK to do so instead of creating a new state in the store.
 * NgRx' strength is to provide state for multiple components
 
+== @ngrx/router-store
+* current routing is also a state of the application!
+* add to _imports_ in _app.module.ts_:
+
+[source,javascript]
+----
+imports: [
+  ...
+  StoreRouterConnectingModule
+]
+----
+
 == Redux Devtools
-* https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome]
-* Necessary changes in source:
-* _package.json_:
+* https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd[Browser extension for Chrome] to debug in browser
+* install with
+
+    npm install --save @ngrx/store-devtools
+
+* ... which results in changes in _package.json_:
 [source,javascript]
 ----
   "dependencies": {
@@ -367,6 +382,8 @@ this.store.dispatch(new BackendcallActions.doBackendCall({value: 'value'}));
   ],
   ...
 ----
+
+* important: has to be added AFTER _StoreModule_
 
 == Further Reading
 === Always use NgRX?
